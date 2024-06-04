@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Blog Interface</title>
+        <link rel="stylesheet"
+            href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        <div class="container">
+            <div class="left-panel" id="left-panel">
+                <h2>Blog Titles</h2>
+                <hr>
+                <ul id="blogList">
+                    {% for post in posts %}
+                    <li><a href="#" data-post-id="{{ post.id }}">{{ post.title
+                            }}</a></li>
+                    {% endfor %}
+                </ul>
+                <button id="chatbotButton">Open Chatbot</button>
+            </div>
+            <div class="right-panel" id="right-panel">
+                <div id="blogContent">
+                    <!-- Blog content will be displayed here dynamically -->
+                </div>
+
+                <div class="chatcontainer">
+                    <div id="chatbotContainer" style="display: none;">
+                        <!-- Chatbot container will be displayed here dynamically -->
+                        <div class="chatbot-content">
+                            <div class="containerchat">
+                                <div class="chat-container">
+                                    <div id="chatbox">
+                                        <h2 style="text-align:center">ChatBot
+                                        </h2>
+                                        <hr style="color:blue">
+                                        <div class="chat-message"
+                                            id="chatmessage">
+                                            <!-- Chat messages will appear here -->
+                                            {% if chatdata %}
+                                            {% for data in chatdata %}
+                                            <!-- Inside your loop where you display user and bot messages -->
+                                            {% if data.sender == 'bot' %}
+                                            <div class="message bot">
+                                                <p class="message-text">{{
+                                                    data.message | replace("\n",
+                                                    "<br>") | safe }}</p>
+                                            </div>
+                                            {% else %}
+                                            <div class="message user"style="
+                                            font-size: 26px;
+                                            background-color: #9f9f9f;
+                                            padding: 10px;
+                                            border-radius: 10px;
+                                        ">
+                                                <p class="message-U">{{
+                                                    data.message | replace("\n",
+                                                    "<br>") }}</p>
+                                            </div>
+                                            {% endif %}
+
+                                            {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <form action="/send-message"
+                                            class="chat-input chat_footer"
+                                            method="post">
+                                            <input type="text" id="message"
+                                                name="message"
+                                                placeholder="Type a message...">
+                                            <button id="sendButton "
+                                                class="btn01"> Send</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script
+                    src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+            </body>
+        </html>
